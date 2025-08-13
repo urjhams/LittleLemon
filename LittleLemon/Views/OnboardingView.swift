@@ -60,7 +60,9 @@ struct OnboardingView: View {
         .shared
         .register(firstName: firstName, lastName: lastName, email: email)
       
-      auth.isLoggedIn = true
+      withAnimation {
+        auth.isLoggedIn = true
+      }
     } catch {
       errorMessage = error.localizedDescription
     }

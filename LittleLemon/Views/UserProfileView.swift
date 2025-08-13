@@ -27,7 +27,7 @@ struct UserProfileView: View {
 
   var body: some View {
     VStack(spacing: 10) {
-      Image(systemName: "person.crop.circle.fill")
+      Image(.profile)
         .resizable()
         .frame(maxWidth: 100, maxHeight: 100)
         .aspectRatio(contentMode: .fill)
@@ -48,7 +48,9 @@ struct UserProfileView: View {
       Spacer()
       
       Button("Log out") {
-        auth.logout()
+        withAnimation {
+          auth.logout()
+        }
       }
       Spacer()
         .frame(height: 40)
@@ -58,4 +60,5 @@ struct UserProfileView: View {
 
 #Preview {
   UserProfileView()
+    .environment(AuthStore(defaults: .init(suiteName: "preview")!))
 }
