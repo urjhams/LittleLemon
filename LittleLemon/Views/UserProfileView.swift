@@ -9,17 +9,17 @@ import SwiftUI
 
 struct UserProfileView: View {
   
-  @State var firstName = OnboardingManager
+  @State var firstName = AuthStore
     .shared
-    .getInfo(forKey: OnboardingManager.firstNameKey) ?? ""
+    .getInfo(forKey: AuthStore.firstNameKey) ?? ""
   
-  @State var lastName = OnboardingManager
+  @State var lastName = AuthStore
     .shared
-    .getInfo(forKey: OnboardingManager.lastNameKey) ?? ""
+    .getInfo(forKey: AuthStore.lastNameKey) ?? ""
   
-  @State var email = OnboardingManager
+  @State var email = AuthStore
     .shared
-    .getInfo(forKey: OnboardingManager.emailKey) ?? ""
+    .getInfo(forKey: AuthStore.emailKey) ?? ""
   
   @Environment(\.presentationMode) var presentation
 

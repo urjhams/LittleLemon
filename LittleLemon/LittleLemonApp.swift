@@ -9,11 +9,24 @@ import SwiftUI
 
 @main
 struct LittleLemonApp: App {
+  
+  @State private var auth = AuthStore.shared
+  
   let persistenceController = PersistenceController.shared
 
   var body: some Scene {
     WindowGroup {
-      OnboardingView()
+      if auth.isLoggedIn {
+        NavigationStack {
+          HomeView()
+        }
+        .environment(auth)
+      } else {
+        NavigationStack {
+          OnboardingView()
+        }
+        .environment(auth)
+      }
 //      ContentView()
 //        .environment(\.managedObjectContext, persistenceController.container.viewContext)
     }

@@ -21,7 +21,7 @@ struct HomeView: View {
         
         UserProfileView()
           .tabItem {
-            Label("Profile", systemImage: "person.crop.circle")
+            Label("Profile", systemImage: "square.and.pencil")
           }
       }
     }

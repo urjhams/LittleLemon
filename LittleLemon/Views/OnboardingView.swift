@@ -7,37 +7,6 @@
 
 import SwiftUI
 
-public final class OnboardingManager {
-  static let firstNameKey = "com.little.lemon.firstName"
-  static let lastNameKey = "com.little.lemon.lastName"
-  static let emailKey = "com.little.lemon.email"
-  
-  private init() {}
-  static let shared = OnboardingManager()
-  
-  func register(
-    firstName: String,
-    lastName: String,
-    email: String
-  ) throws {
-    guard !firstName.isEmpty, !lastName.isEmpty, !email.isEmpty else {
-      throw "First name, last name, and email must not empty"
-    }
-    
-    guard email.contains("@") else {
-      throw "Invalid email format"
-    }
-    
-    UserDefaults.standard.set(firstName, forKey: Self.firstNameKey)
-    UserDefaults.standard.set(lastName, forKey: Self.lastNameKey)
-    UserDefaults.standard.set(email, forKey: Self.emailKey)
-  }
-  
-  func getInfo(forKey key: String) -> String? {
-    UserDefaults.standard.string(forKey: key)
-  }
-}
-
 private enum Route: Hashable {
   case home
 }
@@ -101,7 +70,7 @@ struct OnboardingView: View {
   
   func register() {
     do {
-      try OnboardingManager
+      try AuthStore
         .shared
         .register(firstName: firstName, lastName: lastName, email: email)
       
