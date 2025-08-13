@@ -23,6 +23,10 @@ struct MenuView: View {
           .font(.largeTitle)
         Label("Chicago", systemImage: "globe.europe.africa")
           .font(.title3)
+        
+        NavigationLink("Test") {
+          FoodDetailView()
+        }
         Text(intro)
       }
       .padding()

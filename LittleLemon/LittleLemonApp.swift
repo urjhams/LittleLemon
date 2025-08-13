@@ -20,14 +20,7 @@ struct LittleLemonApp: App {
         if auth.isLoggedIn {
           NavigationStack {
             HomeView()
-              .toolbar {
-                ToolbarItem(placement: .principal) {
-                  Image(.logo)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(minWidth: 139, minHeight: 30)
-                }
-              }
+              .logoTitleToolbar()
               .navigationBarTitleDisplayMode(.inline)
           }
           .transition(
@@ -38,14 +31,7 @@ struct LittleLemonApp: App {
         } else {
           NavigationStack {
             OnboardingView()
-              .toolbar {
-                ToolbarItem(placement: .principal) {
-                  Image(.logo)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(minWidth: 139, minHeight: 30)
-                }
-              }
+              .logoTitleToolbar()
               .navigationBarTitleDisplayMode(.inline)
           }
           .transition(
