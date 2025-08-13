@@ -45,7 +45,6 @@ struct OnboardingView: View {
 
     }
     .padding(20)
-    .navigationTitle("Onboarding")
 
     .alert("Error", isPresented: $showError) {
       Button("Close", role: .cancel) {}

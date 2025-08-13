@@ -9,32 +9,54 @@ import SwiftUI
 
 @main
 struct LittleLemonApp: App {
-  
+
   @State private var auth = AuthStore.shared
-  
+
   let persistenceController = PersistenceController.shared
 
   var body: some Scene {
     WindowGroup {
       ZStack {
         if auth.isLoggedIn {
-          NavigationStack { HomeView() }
-            .transition(.asymmetric(
+          NavigationStack {
+            HomeView()
+              .toolbar {
+                ToolbarItem(placement: .principal) {
+                  Image(.logo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(minWidth: 139, minHeight: 30)
+                }
+              }
+          }
+          .transition(
+            .asymmetric(
               insertion: .move(edge: .trailing).combined(with: .opacity),
-              removal:   .move(edge: .trailing).combined(with: .opacity)
+              removal: .move(edge: .trailing).combined(with: .opacity)
             ))
         } else {
-          NavigationStack { OnboardingView() }
-            .transition(.asymmetric(
+          NavigationStack {
+            OnboardingView()
+              .toolbar {
+                ToolbarItem(placement: .principal) {
+                  Image(.logo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(minWidth: 139, minHeight: 30)
+                }
+              }
+          }
+          .transition(
+            .asymmetric(
               insertion: .move(edge: .leading).combined(with: .opacity),
-              removal:   .move(edge: .leading).combined(with: .opacity)
+              removal: .move(edge: .leading).combined(with: .opacity)
             ))
         }
       }
       .animation(.spring(response: 0.5, dampingFraction: 0.9), value: auth.isLoggedIn)
       .environment(auth)
-//      ContentView()
-//        .environment(\.managedObjectContext, persistenceController.container.viewContext)
+      //      ContentView()
+      //        .environment(\.managedObjectContext, persistenceController.container.viewContext)
     }
   }
 }

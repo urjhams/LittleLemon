@@ -55,6 +55,14 @@ struct UserProfileView: View {
       Spacer()
         .frame(height: 40)
     }
+    .toolbar {
+      ToolbarItem(placement: .navigationBarTrailing) {
+        Image(.profile)
+          .resizable()
+          .frame(width: 40, height: 40)
+          .cornerRadius(20)
+      }
+    }
   }
 }
 
