@@ -10,10 +10,6 @@ import SwiftUI
 struct HomeView: View {
     var body: some View {
       TabView {
-        OnboardingView()
-          .tabItem {
-            Label("Home", systemImage: "house")
-          }
         MenuView()
           .tabItem {
             Label("Menu", systemImage: "list.dash")

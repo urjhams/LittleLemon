@@ -9,6 +9,8 @@ import SwiftUI
 
 struct UserProfileView: View {
   
+  @Environment(AuthStore.self) private var auth
+  
   @State var firstName = AuthStore
     .shared
     .getInfo(forKey: AuthStore.firstNameKey) ?? ""
@@ -46,7 +48,7 @@ struct UserProfileView: View {
       Spacer()
       
       Button("Log out") {
-        
+        auth.logout()
       }
       Spacer()
         .frame(height: 40)

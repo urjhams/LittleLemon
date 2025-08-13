@@ -16,13 +16,8 @@ public final class AuthStore {
   
   @ObservationIgnored private let defaults: UserDefaults
   
-  var isLoggedIn: Bool {
-    get {
-      defaults.bool(forKey: Self.loggedInKey)
-    }
-    set {
-      defaults.set(newValue, forKey: Self.loggedInKey)
-    }
+  var isLoggedIn: Bool = false {
+    didSet { defaults.set(isLoggedIn, forKey: Self.loggedInKey) }
   }
   
   public init(defaults: UserDefaults = .standard) { self.defaults = defaults }
