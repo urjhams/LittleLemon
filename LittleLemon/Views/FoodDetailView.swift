@@ -10,8 +10,17 @@ import SwiftUI
 struct FoodDetailView: View {
     var body: some View {
       ScrollView{
-        ZStack{
-          Text("Hello, World!")
+        VStack{
+          Image(.bruschetta)
+            .resizable()
+            .renderingMode(.original)
+            .frame(maxWidth: .infinity)
+            .aspectRatio(contentMode: .fill)
+          
+          Text("Food name")
+            .font(.largeTitle)
+          Text("Description")
+          Text("Price: $10")
         }
       }
       .logoTitleToolbar()
