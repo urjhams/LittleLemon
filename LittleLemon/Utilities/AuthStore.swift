@@ -20,7 +20,10 @@ public final class AuthStore {
     didSet { defaults.set(isLoggedIn, forKey: Self.loggedInKey) }
   }
   
-  public init(defaults: UserDefaults = .standard) { self.defaults = defaults }
+  public init(defaults: UserDefaults = .standard) {
+    self.defaults = defaults
+    self.isLoggedIn = defaults.bool(forKey: Self.loggedInKey)
+  }
   static let shared = AuthStore()
   
   func register(
