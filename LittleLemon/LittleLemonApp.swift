@@ -28,6 +28,7 @@ struct LittleLemonApp: App {
                     .frame(minWidth: 139, minHeight: 30)
                 }
               }
+              .navigationBarTitleDisplayMode(.inline)
           }
           .transition(
             .asymmetric(
@@ -45,6 +46,7 @@ struct LittleLemonApp: App {
                     .frame(minWidth: 139, minHeight: 30)
                 }
               }
+              .navigationBarTitleDisplayMode(.inline)
           }
           .transition(
             .asymmetric(
