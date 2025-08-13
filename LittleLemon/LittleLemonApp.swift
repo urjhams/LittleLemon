@@ -16,17 +16,23 @@ struct LittleLemonApp: App {
 
   var body: some Scene {
     WindowGroup {
-      if auth.isLoggedIn {
-        NavigationStack {
-          HomeView()
+      ZStack {
+        if auth.isLoggedIn {
+          NavigationStack { HomeView() }
+            .transition(.asymmetric(
+              insertion: .move(edge: .trailing).combined(with: .opacity),
+              removal:   .move(edge: .trailing).combined(with: .opacity)
+            ))
+        } else {
+          NavigationStack { OnboardingView() }
+            .transition(.asymmetric(
+              insertion: .move(edge: .leading).combined(with: .opacity),
+              removal:   .move(edge: .leading).combined(with: .opacity)
+            ))
         }
-        .environment(auth)
-      } else {
-        NavigationStack {
-          OnboardingView()
-        }
-        .environment(auth)
       }
+      .animation(.spring(response: 0.5, dampingFraction: 0.9), value: auth.isLoggedIn)
+      .environment(auth)
 //      ContentView()
 //        .environment(\.managedObjectContext, persistenceController.container.viewContext)
     }
