@@ -20,9 +20,18 @@ struct HomeView: View {
             Label("Profile", systemImage: "square.and.pencil")
           }
       }
+      .toolbar {
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Image(.profile)
+            .resizable()
+            .frame(width: 40, height: 40)
+            .cornerRadius(20)
+        }
+      }
     }
 }
 
 #Preview {
     HomeView()
+      .environment(AuthStore(defaults: .init(suiteName: "preview")!))
 }
