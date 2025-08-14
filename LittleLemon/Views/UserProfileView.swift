@@ -32,6 +32,7 @@ struct UserProfileView: View {
         .frame(maxWidth: 100, maxHeight: 100)
         .aspectRatio(contentMode: .fill)
         .cornerRadius(50)
+      
       Text("Personal Information")
         .font(.title2)
         .fontWeight(.bold)

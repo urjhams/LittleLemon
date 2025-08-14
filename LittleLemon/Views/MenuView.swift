@@ -32,6 +32,9 @@ struct MenuView: View {
       .padding()
 
     }
+    .task {
+      
+    }
   }
 }
 
