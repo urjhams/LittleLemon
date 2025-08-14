@@ -12,7 +12,7 @@ struct LittleLemonApp: App {
 
   @State private var auth = AuthStore.shared
 
-//  let persistenceController = PersistenceController.shared
+  let persistenceController = PersistenceController.shared
 
   var body: some Scene {
     WindowGroup {
@@ -22,6 +22,7 @@ struct LittleLemonApp: App {
             HomeView()
               .logoTitleToolbar()
               .navigationBarTitleDisplayMode(.inline)
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
           }
           .transition(
             .asymmetric(

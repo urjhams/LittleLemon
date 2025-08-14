@@ -15,6 +15,8 @@ public actor DataManager {
     self.session = session
   }
   
+  public static let shared = DataManager()
+  
   func getMenuData() async throws -> MenuList {
     let address = "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json"
     let (data, _) = try await session.data(from: URL(string: address)!)
