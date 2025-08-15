@@ -36,7 +36,7 @@ extension MenuItem {
         print("existed")
         continue
       }
-      let newItem = MenuItem(context: context)
+      let newItem = Self.init(context: context)
       newItem.title = item.title
       newItem.des = item.des
       newItem.price = item.price

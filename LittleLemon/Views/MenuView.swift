@@ -20,6 +20,7 @@ struct MenuView: View {
   @Environment(\.managedObjectContext) private var viewContext
 
   @State private var searchText = ""
+  @State var loaded = false
 
   var filteredPredicate: NSPredicate {
     if searchText.isEmpty {
@@ -32,7 +33,7 @@ struct MenuView: View {
   @State private var sortDescriptors: [NSSortDescriptor] = []
 
   var body: some View {
-    List {
+    ScrollView {
       FetchedObjects(
         predicate: filteredPredicate,
         sortDescriptors: sortDescriptors
@@ -53,6 +54,9 @@ struct MenuView: View {
       )
     }
     .task {
+      guard !loaded else {
+        return
+      }
       async let menuList = try? await DataManager.shared.getMenuData()
 
       guard let list = await menuList else {
@@ -60,7 +64,8 @@ struct MenuView: View {
         return
       }
       await DataManager.shared.createItems(from: list, context: viewContext)
-
+      
+      loaded = true
     }
   }
 }
