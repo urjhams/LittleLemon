@@ -16,6 +16,9 @@ let intro = """
   """
 
 struct MenuView: View {
+  
+  @Environment(\.managedObjectContext) private var viewContext
+  
   var body: some View {
     ScrollView {
       VStack {
@@ -33,7 +36,13 @@ struct MenuView: View {
 
     }
     .task {
+      async let menuList = try? await DataManager.shared.getMenuData()
       
+      guard let list = await menuList else {
+        // or show error
+        return
+      }
+      await DataManager.shared.createItems(from: list, context: viewContext)
     }
   }
 }

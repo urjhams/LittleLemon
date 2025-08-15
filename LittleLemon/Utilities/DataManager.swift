@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 public actor DataManager {
   
@@ -21,5 +22,28 @@ public actor DataManager {
     let address = "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json"
     let (data, _) = try await session.data(from: URL(string: address)!)
     return try JSONDecoder().decode(MenuList.self, from: data)
+  }
+  
+  func createItems(from menuList: MenuList, context: NSManagedObjectContext) {
+    MenuItem.create(from: menuList.menu, context: context)
+  }
+}
+
+extension MenuItem {
+  static func create(from items: [Item], context: NSManagedObjectContext) {
+    for item in items {
+      if let existed = Self.exists(title: item.title, context), existed {
+        print("existed")
+        continue
+      }
+      let newItem = MenuItem(context: context)
+      newItem.title = item.title
+      newItem.des = item.des
+      newItem.price = item.price
+      newItem.img = item.img
+      newItem.cat = item.cat
+    }
+    
+    save(context)
   }
 }
