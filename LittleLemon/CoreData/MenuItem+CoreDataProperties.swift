@@ -16,11 +16,11 @@ extension MenuItem {
         return NSFetchRequest<MenuItem>(entityName: "MenuItem")
     }
 
-    @NSManaged public var cat: String?
-    @NSManaged public var des: String?
-    @NSManaged public var img: String?
-    @NSManaged public var price: String?
-    @NSManaged public var title: String?
+    @NSManaged public var cat: String
+    @NSManaged public var des: String
+    @NSManaged public var img: String
+    @NSManaged public var price: String
+    @NSManaged public var title: String
 
 }
 
@@ -37,8 +37,8 @@ extension MenuItem : Identifiable {
   static func save(_ context: NSManagedObjectContext) {
     guard context.hasChanges else { return }
     do {
-      print("try to save context")
       try context.save()
+      print("successful save the context")
     } catch let error as NSError {
       print("Unresolved error \(error), \(error.userInfo)")
     }

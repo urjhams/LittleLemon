@@ -16,37 +16,56 @@ let intro = """
   """
 
 struct MenuView: View {
-  
+
   @Environment(\.managedObjectContext) private var viewContext
-  
+
+  @State private var searchText = ""
+
+  var filteredPredicate: NSPredicate {
+    if searchText.isEmpty {
+      return NSPredicate(value: true)
+    } else {
+      return NSPredicate(format: "title CONTAINS[cd] %@", searchText)
+    }
+  }
+
+  @State private var sortDescriptors: [NSSortDescriptor] = []
+
   var body: some View {
-    ScrollView {
-      VStack {
-        Text("Little Lemon")
-          .font(.largeTitle)
-        Label("Chicago", systemImage: "globe.europe.africa")
-          .font(.title3)
+    List {
+      FetchedObjects(
+        predicate: filteredPredicate,
+        sortDescriptors: sortDescriptors
+      ) { (items: [MenuItem]) in
+          ForEach(items, id: \.title) { item in
+            NavigationLink {
+              FoodDetailView()
+            } label: {
+              Text(item.title)
+            }
 
-        NavigationLink("Test") {
-          FoodDetailView()
-        }
-        Text(intro)
+          }
       }
-      .padding()
-
+      .searchable(
+        text: $searchText,
+        placement: .navigationBarDrawer,
+        prompt: "search..."
+      )
     }
     .task {
       async let menuList = try? await DataManager.shared.getMenuData()
-      
+
       guard let list = await menuList else {
         // or show error
         return
       }
       await DataManager.shared.createItems(from: list, context: viewContext)
+
     }
   }
 }
 
 #Preview {
   MenuView()
+    .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
 }

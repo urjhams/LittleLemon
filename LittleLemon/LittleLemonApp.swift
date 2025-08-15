@@ -44,8 +44,6 @@ struct LittleLemonApp: App {
       }
       .animation(.spring(response: 0.5, dampingFraction: 0.9), value: auth.isLoggedIn)
       .environment(auth)
-      //      ContentView()
-      //        .environment(\.managedObjectContext, persistenceController.container.viewContext)
     }
   }
 }
