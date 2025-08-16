@@ -8,5 +8,5 @@
 import Foundation
 
 struct MenuList: Decodable {
-  var menu: [Item]
+  var menu: [MenuItem]
 }

@@ -30,7 +30,7 @@ public actor DataManager {
 }
 
 extension Dish {
-  static func create(from items: [Item], context: NSManagedObjectContext) {
+  static func create(from items: [MenuItem], context: NSManagedObjectContext) {
     for item in items {
       if let existed = Self.exists(title: item.title, context), existed {
         print("existed")
