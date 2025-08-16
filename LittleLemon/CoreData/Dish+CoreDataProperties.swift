@@ -1,8 +1,8 @@
 //
-//  MenuItem+CoreDataProperties.swift
+//  Dish+CoreDataProperties.swift
 //  LittleLemon
 //
-//  Created by Quân Đinh on 14.08.25.
+//  Created by Quân Đinh on 16.08.25.
 //
 //
 
@@ -10,21 +10,21 @@ import Foundation
 import CoreData
 
 
-extension MenuItem {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<MenuItem> {
-        return NSFetchRequest<MenuItem>(entityName: "MenuItem")
-    }
-
-    @NSManaged public var cat: String
-    @NSManaged public var des: String
-    @NSManaged public var img: String
-    @NSManaged public var price: String
-    @NSManaged public var title: String
-
+extension Dish {
+  
+  @nonobjc public class func fetchRequest() -> NSFetchRequest<Dish> {
+    return NSFetchRequest<Dish>(entityName: "Dish")
+  }
+  
+  @NSManaged public var cat: String
+  @NSManaged public var des: String
+  @NSManaged public var img: String
+  @NSManaged public var price: String
+  @NSManaged public var title: String
+  
 }
 
-extension MenuItem : Identifiable {
+extension Dish : Identifiable {
   
   private static func request() -> NSFetchRequest<NSFetchRequestResult> {
     let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(
@@ -45,13 +45,13 @@ extension MenuItem : Identifiable {
   }
   
   static func exists(title: String, _ context: NSManagedObjectContext) -> Bool? {
-    let request = MenuItem.request()
+    let request = Dish.request()
     let predicate = NSPredicate(format: "title CONTAINS[cd] %@", title)
     request.predicate = predicate
     
     do {
       guard
-        let results = try context.fetch(request) as? [MenuItem]
+        let results = try context.fetch(request) as? [Dish]
       else {
         return nil
       }

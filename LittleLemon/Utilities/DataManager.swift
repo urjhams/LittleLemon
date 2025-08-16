@@ -25,11 +25,11 @@ public actor DataManager {
   }
   
   func createItems(from menuList: MenuList, context: NSManagedObjectContext) {
-    MenuItem.create(from: menuList.menu, context: context)
+    Dish.create(from: menuList.menu, context: context)
   }
 }
 
-extension MenuItem {
+extension Dish {
   static func create(from items: [Item], context: NSManagedObjectContext) {
     for item in items {
       if let existed = Self.exists(title: item.title, context), existed {

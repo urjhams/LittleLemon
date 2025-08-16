@@ -37,7 +37,7 @@ struct MenuView: View {
       FetchedObjects(
         predicate: filteredPredicate,
         sortDescriptors: sortDescriptors
-      ) { (items: [MenuItem]) in
+      ) { (items: [Dish]) in
           ForEach(items, id: \.title) { item in
             NavigationLink {
               FoodDetailView()
