@@ -34,4 +34,5 @@ struct HomeView: View {
 #Preview {
     HomeView()
       .environment(AuthStore(defaults: .init(suiteName: "preview")!))
+      .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
 }

@@ -30,7 +30,13 @@ struct MenuView: View {
     }
   }
 
-  @State private var sortDescriptors: [NSSortDescriptor] = []
+  @State private var sortDescriptors: [NSSortDescriptor] = [
+    NSSortDescriptor(
+      key: "title",
+      ascending: true,
+      selector: #selector(NSString.localizedStandardCompare)
+    )
+  ]
 
   var body: some View {
     ScrollView {
