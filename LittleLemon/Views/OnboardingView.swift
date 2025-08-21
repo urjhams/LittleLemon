@@ -7,7 +7,50 @@
 
 import SwiftUI
 
+enum OnboardingKind {
+  case present
+  case login
+}
+
+struct OnboardingPage: Identifiable {
+  let id = UUID()
+  let title: String?
+  let text: String?
+  let image: String?
+  let kind: OnboardingKind
+  
+  init(
+    title: String? = nil,
+    text: String? = nil,
+    image: String? = nil,
+    kind: OnboardingKind
+  ) {
+    self.title = title
+    self.text = text
+    self.image = image
+    self.kind = kind
+  }
+}
+
 struct OnboardingView: View {
+  
+  @State private var selection = 0
+  
+  private let pages: [OnboardingPage] = [
+    .init(
+      title: "Welcome",
+      text: "This is your new app!",
+      image: "star",
+      kind: .present
+    ),
+    .init(
+      title: "Track",
+      text: "Keep track of your progress.",
+      image: "chart.bar",
+      kind: .present
+    ),
+    .init(kind: .login)
+  ]
   
   @Environment(AuthStore.self) private var auth
 
@@ -25,23 +68,26 @@ struct OnboardingView: View {
   var body: some View {
     VStack(spacing: 20) {
 
-      TextField("First Name", text: $firstName)
-        .textContentType(.givenName)
-
-      TextField("Last Name", text: $lastName)
-        .textContentType(.familyName)
-
-      TextField("Email", text: $email)
-        .textContentType(.emailAddress)
-        .keyboardType(.emailAddress)
-        .autocapitalization(.none)
-
-      Button {
-        register()
-      } label: {
-        Text("Register")
+      TabView(selection: $selection) {
+        ForEach(Array(pages.enumerated()), id: \.offset) { index, page in
+          switch page.kind {
+          case .login:
+            registerForm(firstName: $firstName, lastName: $lastName, email: $email)
+              .tag(index)
+          case .present:
+            presentForm(title: page.title, text: page.text, image: page.image)
+              .tag(index)
+          }
+        }
       }
-      .buttonStyle(.borderedProminent)
+      .tabViewStyle(.page)
+      .indexViewStyle(.page(backgroundDisplayMode: .always))
+      
+      if selection < pages.count - 1 {
+        Button("Next") {
+          withAnimation { selection += 1 }
+        }
+      }
 
     }
     .padding(20)
@@ -51,6 +97,37 @@ struct OnboardingView: View {
     } message: {
       Text(errorMessage)
     }
+  }
+  
+  @ViewBuilder
+  func registerForm(
+    firstName: Binding<String>,
+    lastName: Binding<String>,
+    email: Binding<String>
+  ) -> some View {
+    TextField("First Name", text: $firstName)
+      .textContentType(.givenName)
+    
+    TextField("Last Name", text: $lastName)
+      .textContentType(.familyName)
+    
+    TextField("Email", text: $email)
+      .textContentType(.emailAddress)
+      .keyboardType(.emailAddress)
+      .autocapitalization(.none)
+    
+    Button {
+      register()
+    } label: {
+      Text("Register")
+    }
+    .buttonStyle(.borderedProminent)
+  }
+  
+  @ViewBuilder
+  func presentForm(title: String?, text: String?, image: String?) -> some View {
+    Text(title ?? "")
+    Text(text ?? "")
   }
 
   func register() {
