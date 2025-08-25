@@ -90,11 +90,10 @@ struct OnboardingView: View {
         }
       } label: {
         Text(selection < pages.count - 1 ? "Next" : "Register")
+          .padding(.horizontal)
       }
       .buttonStyle(.borderedProminent)
-
     }
-    .padding(20)
 
     .alert("Error", isPresented: $showError) {
       Button("Close", role: .cancel) {}
@@ -109,7 +108,7 @@ struct OnboardingView: View {
     lastName: Binding<String>,
     email: Binding<String>
   ) -> some View {
-    VStack {
+    VStack(spacing: 10) {
       TextField("First Name", text: $firstName)
         .textContentType(.givenName)
       
@@ -121,6 +120,7 @@ struct OnboardingView: View {
         .keyboardType(.emailAddress)
         .autocapitalization(.none)
     }
+    .padding(.horizontal, 24)
   }
   
   @ViewBuilder
@@ -128,6 +128,7 @@ struct OnboardingView: View {
     VStack {
       Text(title ?? "")
       Text(text ?? "")
+      Image(systemName: image ?? "")
     }
   }
 
