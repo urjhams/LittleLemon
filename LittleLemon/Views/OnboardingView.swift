@@ -82,12 +82,16 @@ struct OnboardingView: View {
       }
       .tabViewStyle(.page)
       .indexViewStyle(.page(backgroundDisplayMode: .always))
-      
-      if selection < pages.count - 1 {
-        Button("Next") {
+      Button {
+        if selection < pages.count - 1 {
           withAnimation { selection += 1 }
+        } else {
+          register()
         }
+      } label: {
+        Text(selection < pages.count - 1 ? "Next" : "Register")
       }
+      .buttonStyle(.borderedProminent)
 
     }
     .padding(20)
@@ -116,13 +120,6 @@ struct OnboardingView: View {
         .textContentType(.emailAddress)
         .keyboardType(.emailAddress)
         .autocapitalization(.none)
-      
-      Button {
-        register()
-      } label: {
-        Text("Register")
-      }
-      .buttonStyle(.borderedProminent)
     }
   }
   
