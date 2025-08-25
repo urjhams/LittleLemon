@@ -93,7 +93,9 @@ struct OnboardingView: View {
           .padding(.horizontal)
       }
       .buttonStyle(.borderedProminent)
+      .tint(.yellow)
     }
+    .background(.green)
 
     .alert("Error", isPresented: $showError) {
       Button("Close", role: .cancel) {}
@@ -108,7 +110,7 @@ struct OnboardingView: View {
     lastName: Binding<String>,
     email: Binding<String>
   ) -> some View {
-    VStack(spacing: 10) {
+    VStack(spacing: 16) {
       TextField("First Name", text: $firstName)
         .textContentType(.givenName)
       
@@ -125,9 +127,13 @@ struct OnboardingView: View {
   
   @ViewBuilder
   func presentForm(title: String?, text: String?, image: String?) -> some View {
-    VStack {
+    VStack(spacing: 24) {
       Text(title ?? "")
+        .font(.title)
+        .foregroundStyle(.white)
       Text(text ?? "")
+        .font(.body)
+        .foregroundStyle(.white)
       Image(systemName: image ?? "")
     }
   }
