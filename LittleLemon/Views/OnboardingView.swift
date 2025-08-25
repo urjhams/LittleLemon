@@ -105,29 +105,33 @@ struct OnboardingView: View {
     lastName: Binding<String>,
     email: Binding<String>
   ) -> some View {
-    TextField("First Name", text: $firstName)
-      .textContentType(.givenName)
-    
-    TextField("Last Name", text: $lastName)
-      .textContentType(.familyName)
-    
-    TextField("Email", text: $email)
-      .textContentType(.emailAddress)
-      .keyboardType(.emailAddress)
-      .autocapitalization(.none)
-    
-    Button {
-      register()
-    } label: {
-      Text("Register")
+    VStack {
+      TextField("First Name", text: $firstName)
+        .textContentType(.givenName)
+      
+      TextField("Last Name", text: $lastName)
+        .textContentType(.familyName)
+      
+      TextField("Email", text: $email)
+        .textContentType(.emailAddress)
+        .keyboardType(.emailAddress)
+        .autocapitalization(.none)
+      
+      Button {
+        register()
+      } label: {
+        Text("Register")
+      }
+      .buttonStyle(.borderedProminent)
     }
-    .buttonStyle(.borderedProminent)
   }
   
   @ViewBuilder
   func presentForm(title: String?, text: String?, image: String?) -> some View {
-    Text(title ?? "")
-    Text(text ?? "")
+    VStack {
+      Text(title ?? "")
+      Text(text ?? "")
+    }
   }
 
   func register() {
