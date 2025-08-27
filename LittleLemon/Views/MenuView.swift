@@ -168,11 +168,31 @@ private struct MenuRow: View {
           .foregroundStyle(.mainTheme)
           .padding(.top, 4)
       }
+      
       Spacer(minLength: 12)
-      Rectangle()
-        .frame(width: 96, height: 72)
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .opacity(0.15)
+      
+      AsyncImage(url: URL(string: dish.img)) { phase in
+        switch phase {
+        case .empty:
+          ProgressView()
+            .frame(width: 86, height: 86)
+        case .success(let image):
+          image
+            .resizable()
+            .scaledToFill()
+            .frame(width: 86, height: 86)
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .clipped()
+        case .failure(_):
+          Image(systemName: "photo")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 86, height: 86)
+            .foregroundStyle(.secondary)
+        @unknown default:
+          EmptyView()
+        }
+      }
     }
     .padding(.horizontal, 24)
     .padding(.vertical, 16)
