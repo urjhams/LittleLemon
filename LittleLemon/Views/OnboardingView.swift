@@ -15,42 +15,51 @@ enum OnboardingKind {
 struct OnboardingPage: Identifiable {
   let id = UUID()
   let title: String?
+  let subTitle: String?
   let text: String?
-  let image: String?
+  let image: ImageResource?
   let kind: OnboardingKind
   
   init(
     title: String? = nil,
+    subTitle: String? = nil,
     text: String? = nil,
-    image: String? = nil,
+    image: ImageResource? = nil,
     kind: OnboardingKind
   ) {
     self.title = title
+    self.subTitle = subTitle
     self.text = text
     self.image = image
     self.kind = kind
   }
 }
 
+let pages: [OnboardingPage] = [
+  .init(
+    title: "Welcome to Little Lemon",
+    subTitle: "Chicago",
+    text: "Explore a menu crafted with fresh ingredients and authentic taste. Every dish is prepared with care to bring joy to your table.",
+    image: nil,
+    kind: .present
+  ),
+  .init(
+    title: "Order & Enjoy",
+    text: "From quick bites to full meals, we make dining effortless and delightful. Place your order and savor the flavor in no time.",
+    image: nil,
+    kind: .present
+  ),
+  .init(
+    title: "Join Our Table",
+    text: "Create your account to unlock exclusive offers and personalized recommendations. Start your taste journey with just one tap.",
+    image: nil,
+    kind: .login
+  )
+]
+
 struct OnboardingView: View {
   
   @State private var selection = 0
-  
-  private let pages: [OnboardingPage] = [
-    .init(
-      title: "Welcome",
-      text: "This is your new app!",
-      image: "star",
-      kind: .present
-    ),
-    .init(
-      title: "Track",
-      text: "Keep track of your progress.",
-      image: "chart.bar",
-      kind: .present
-    ),
-    .init(kind: .login)
-  ]
   
   @Environment(AuthStore.self) private var auth
 
@@ -75,7 +84,7 @@ struct OnboardingView: View {
             registerForm(firstName: $firstName, lastName: $lastName, email: $email)
               .tag(index)
           case .present:
-            presentForm(title: page.title, text: page.text, image: page.image)
+            presentForm(title: page.title, subTitle: page.subTitle, text: page.text, image: page.image)
               .tag(index)
           }
         }
@@ -93,9 +102,9 @@ struct OnboardingView: View {
           .padding(.horizontal)
       }
       .buttonStyle(.borderedProminent)
-      .tint(.yellow)
+      .tint(.mainTheme)
     }
-    .background(.green)
+//    .background(.green)
 
     .alert("Error", isPresented: $showError) {
       Button("Close", role: .cancel) {}
@@ -108,7 +117,11 @@ struct OnboardingView: View {
   func registerForm(
     firstName: Binding<String>,
     lastName: Binding<String>,
-    email: Binding<String>
+    email: Binding<String>,
+    title: String? = nil,
+    subtitle: String? = nil,
+    text: String? = nil,
+    image: ImageResource? = nil
   ) -> some View {
     VStack(spacing: 16) {
       TextField("First Name", text: $firstName)
@@ -126,16 +139,20 @@ struct OnboardingView: View {
   }
   
   @ViewBuilder
-  func presentForm(title: String?, text: String?, image: String?) -> some View {
+  func presentForm(title: String?, subTitle: String? = nil, text: String?, image: ImageResource?) -> some View {
     VStack(spacing: 24) {
       Text(title ?? "")
         .font(.title)
-        .foregroundStyle(.white)
+      Text(subTitle ?? "")
+        .font(.title2)
       Text(text ?? "")
         .font(.body)
-        .foregroundStyle(.white)
-      Image(systemName: image ?? "")
+      if let image {
+        Image(image)
+      }
+      Spacer()
     }
+    .padding(.horizontal, 24)
   }
 
   func register() {
