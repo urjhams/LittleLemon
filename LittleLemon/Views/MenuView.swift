@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CachedAsyncImage
 
 struct MenuView: View {
   
@@ -68,7 +67,7 @@ struct MenuView: View {
               }
             }
           } header: {
-            FiltersHeader(filters: $filters)
+            FiltersHeader(filters: $filters, selected: $selectedFilter)
               .background(.regularMaterial)
           }
         }
@@ -112,51 +111,35 @@ struct MenuView: View {
 }
 
 
-private struct HeroHeader: View {
-  var body: some View {
-    VStack(alignment: .leading, spacing: 10) {
-      Text("Little Lemon")
-        .font(.largeTitle)
-        .foregroundStyle(.title)
-        .padding(.bottom, -4)
-      
-      HStack(spacing: 16) {
-        VStack(alignment: .leading, spacing: 16) {
-          Text("Chicago")
-            .font(.title2)
-          Text("We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.")
-            .font(.body)
-        }
-        Image(.hero)
-          .resizable()
-          .scaledToFill()
-          .frame(width: 140, height: 140)
-          .clipShape(.rect(cornerRadius: 16))
-          .clipped()
-      }
-    }
-    .padding([.horizontal, .top])
-    .foregroundStyle(.white)
-    .frame(maxWidth: .infinity)
-    .frame(height: 260, alignment: .top)
-    .background(.mainTheme)
-  }
-}
-
 private struct FiltersHeader: View {
   @Binding var filters: [String]
+  @Binding var selected: String?
+  
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
       Text("ORDER FOR DELIVERY!")
         .font(.headline)
         .padding([.top, .horizontal], 16)
+      
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 12) {
-          ForEach(filters, id: \.self) { filtered in
-            Text(filtered)
+          ForEach(filters, id: \.self) { filter in
+            let isSelected = (selected == filter)
+            Text(filter)
               .padding(.horizontal, 16)
               .padding(.vertical, 10)
-              .background(Rectangle().fill(Color(.systemGray5)).cornerRadius(16))
+              .background(
+                Capsule()
+                  .fill(isSelected ? Color("MainTheme") : Color(.systemGray5))
+              )
+              .foregroundStyle(isSelected ? .white : .primary)
+              .onTapGesture {
+                if selected == filter {
+                  selected = nil
+                } else {
+                  selected = filter
+                }
+              }
           }
         }
         .padding(.bottom, 16)
@@ -164,52 +147,5 @@ private struct FiltersHeader: View {
       .contentMargins(.horizontal, 16, for: .scrollContent)
     }
     .background(Color.clear)
-  }
-}
-
-private struct MenuRow: View {
-  let dish: Dish
-  var body: some View {
-    HStack(alignment: .top, spacing: 16) {
-      VStack(alignment: .leading, spacing: 8) {
-        Text(dish.title)
-          .font(.title3).fontWeight(.semibold)
-          .foregroundStyle(.mainTheme)
-        Text(dish.des)
-          .foregroundStyle(.secondary)
-          .lineLimit(2)
-        Text("\(dish.price) $")
-          .font(.headline)
-          .foregroundStyle(.mainTheme)
-          .padding(.top, 4)
-      }
-      
-      Spacer(minLength: 12)
-      
-      CachedAsyncImage(url: URL(string: dish.img)) { phase in
-        switch phase {
-        case .empty:
-          ProgressView()
-            .frame(width: 86, height: 86)
-        case .success(let image):
-          image
-            .resizable()
-            .scaledToFill()
-            .frame(width: 86, height: 86)
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-            .clipped()
-        case .failure(_):
-          Image(systemName: "photo")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 86, height: 86)
-            .foregroundStyle(.secondary)
-        @unknown default:
-          EmptyView()
-        }
-      }
-    }
-    .padding(.horizontal, 24)
-    .padding(.vertical, 16)
   }
 }
