@@ -24,6 +24,10 @@ extension Dish {
   
 }
 
+extension Dish {
+  static let sample: Dish = Dish(entity: Dish.entity(), insertInto: nil)
+}
+
 extension Dish : Identifiable {
   
   private static func request() -> NSFetchRequest<NSFetchRequestResult> {

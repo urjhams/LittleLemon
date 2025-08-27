@@ -14,6 +14,8 @@ struct MenuView: View {
   @State private var searchText = ""
   @State var loaded = false
   
+  @State var filters = [String]()
+  
   var filteredPredicate: NSPredicate {
     if searchText.isEmpty {
       return NSPredicate(value: true)
@@ -43,15 +45,15 @@ struct MenuView: View {
             ) { (dishs: [Dish]) in
               ForEach(dishs, id: \.objectID) { dish in
                 NavigationLink {
-                  FoodDetailView()
+                  FoodDetailView(dish: dish)
                 } label: {
-                  MenuRow(title: dish.title)
+                  MenuRow(dish: dish)
                 }
                 Divider().padding(.leading, 24)
               }
             }
           } header: {
-            FiltersHeader()
+            FiltersHeader(filters: $filters)
               .background(.regularMaterial)
           }
         }
@@ -74,6 +76,14 @@ struct MenuView: View {
         return
       }
       await DataManager.shared.createItems(from: list, context: viewContext)
+      var filters: [String] = []
+      list.menu.forEach { menu in
+        if !filters.contains(menu.cat) {
+          filters.append(menu.cat)
+        }
+      }
+      
+      self.filters = filters
       
       loaded = true
     }
@@ -119,7 +129,7 @@ private struct HeroHeader: View {
 }
 
 private struct FiltersHeader: View {
-  let filters = ["Starters", "Mains", "Desserts", "Drinks"]
+  @Binding var filters: [String]
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
       Text("ORDER FOR DELIVERY!")
@@ -134,26 +144,26 @@ private struct FiltersHeader: View {
               .background(Rectangle().fill(Color(.systemGray5)).cornerRadius(16))
           }
         }
-        .padding(.bottom, 12)
-        .padding(.horizontal, 16)
+        .padding(.bottom, 16)
       }
+      .contentMargins(.horizontal, 16, for: .scrollContent)
     }
     .background(Color.clear)
   }
 }
 
 private struct MenuRow: View {
-  let title: String
+  let dish: Dish
   var body: some View {
     HStack(alignment: .top, spacing: 16) {
       VStack(alignment: .leading, spacing: 8) {
-        Text(title)
+        Text(dish.title)
           .font(.title3).fontWeight(.semibold)
           .foregroundStyle(.mainTheme)
-        Text("Description…")
+        Text(dish.des)
           .foregroundStyle(.secondary)
           .lineLimit(2)
-        Text("$--")
+        Text("\(dish.price) $")
           .font(.headline)
           .foregroundStyle(.mainTheme)
           .padding(.top, 4)
