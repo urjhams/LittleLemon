@@ -20,10 +20,10 @@ struct FoodDetailView: View {
           .frame(maxWidth: .infinity)
           .aspectRatio(contentMode: .fill)
 
-        Text("Food name")
+        Text(dish?.title ?? "")
           .font(.largeTitle)
-        Text("Description")
-        Text("Price: $10")
+        Text(dish?.des ?? "")
+        Text("\(dish?.price ?? "")$")
       }
     }
     .logoTitleToolbar()

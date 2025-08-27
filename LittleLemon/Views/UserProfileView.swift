@@ -53,6 +53,9 @@ struct UserProfileView: View {
           auth.logout()
         }
       }
+      .buttonStyle(.borderedProminent)
+      .tint(.mainTheme)
+      
       Spacer()
         .frame(height: 40)
     }
