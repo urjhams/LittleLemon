@@ -44,15 +44,10 @@ let pages: [OnboardingPage] = [
     kind: .present
   ),
   .init(
-    title: "Order & Enjoy",
-    text: "From quick bites to full meals, we make dining effortless and delightful. Place your order and savor the flavor in no time.",
-    image: nil,
-    kind: .present
-  ),
-  .init(
-    title: "Join Our Table",
+    title: "Little Lemon",
+    subTitle: "Chicago",
     text: "Create your account to unlock exclusive offers and personalized recommendations. Start your taste journey with just one tap.",
-    image: nil,
+    image: .hero,
     kind: .login
   )
 ]
@@ -81,16 +76,33 @@ struct OnboardingView: View {
         ForEach(Array(pages.enumerated()), id: \.offset) { index, page in
           switch page.kind {
           case .login:
-            registerForm(firstName: $firstName, lastName: $lastName, email: $email)
-              .tag(index)
+            registerForm(
+              firstName: $firstName,
+              lastName: $lastName,
+              email: $email, title:
+                page.title, subTitle:
+                page.subTitle,
+              text: page.text,
+              image: page.image
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .tag(index)
           case .present:
-            presentForm(title: page.title, subTitle: page.subTitle, text: page.text, image: page.image)
-              .tag(index)
+            presentForm(
+              title: page.title,
+              subTitle: page.subTitle,
+              text: page.text,
+              image: page.image
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .tag(index)
           }
         }
       }
+      
       .tabViewStyle(.page)
-      .indexViewStyle(.page(backgroundDisplayMode: .always))
+      .indexViewStyle(.page(backgroundDisplayMode: .never))
+      
       Button {
         if selection < pages.count - 1 {
           withAnimation { selection += 1 }
@@ -104,7 +116,7 @@ struct OnboardingView: View {
       .buttonStyle(.borderedProminent)
       .tint(.mainTheme)
     }
-//    .background(.green)
+    .frame(maxWidth: .infinity)
 
     .alert("Error", isPresented: $showError) {
       Button("Close", role: .cancel) {}
@@ -119,23 +131,51 @@ struct OnboardingView: View {
     lastName: Binding<String>,
     email: Binding<String>,
     title: String? = nil,
-    subtitle: String? = nil,
+    subTitle: String? = nil,
     text: String? = nil,
     image: ImageResource? = nil
   ) -> some View {
-    VStack(spacing: 16) {
-      TextField("First Name", text: $firstName)
-        .textContentType(.givenName)
+    VStack(spacing: 30) {
+      VStack(alignment: .leading) {
+        Text(title ?? "")
+          .font(.largeTitle)
+        HStack(spacing: 16) {
+          VStack(alignment: .leading, spacing: 16) {
+            Text(subTitle ?? "")
+              .font(.title2)
+            Text(text ?? "")
+              .font(.body)
+          }
+          if let image {
+            Image(image)
+              .resizable()
+              .frame(width: 100, height: 120)
+              .aspectRatio(contentMode: .fill)
+              .clipShape(.rect(cornerRadius: 10))
+          }
+        }
+      }
+      .padding()
+      .foregroundStyle(.white)
+      .frame(maxWidth: .infinity)
+      .frame(height: 260, alignment: .top)
+      .background(.mainTheme)
       
-      TextField("Last Name", text: $lastName)
-        .textContentType(.familyName)
-      
-      TextField("Email", text: $email)
-        .textContentType(.emailAddress)
-        .keyboardType(.emailAddress)
-        .autocapitalization(.none)
+      VStack(spacing: 30) {
+        TextField("First Name", text: $firstName)
+          .textContentType(.givenName)
+        
+        TextField("Last Name", text: $lastName)
+          .textContentType(.familyName)
+        
+        TextField("Email", text: $email)
+          .textContentType(.emailAddress)
+          .keyboardType(.emailAddress)
+          .autocapitalization(.none)
+      }
+      .padding(.horizontal, 24)
+      .padding(.bottom, 24)
     }
-    .padding(.horizontal, 24)
   }
   
   @ViewBuilder
@@ -150,7 +190,6 @@ struct OnboardingView: View {
       if let image {
         Image(image)
       }
-      Spacer()
     }
     .padding(.horizontal, 24)
   }
