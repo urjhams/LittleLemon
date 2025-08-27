@@ -17,18 +17,19 @@ struct MenuRow: View {
         Text(dish.title)
           .font(.title3)
           .fontWeight(.semibold)
-          .foregroundStyle(.mainTheme)
+          .foregroundStyle(.black)
           .padding(.horizontal, 16)
           .padding(.top, 16)
         
         HStack(alignment: .top, spacing: 8) {
           VStack(alignment: .leading, spacing: 8) {
             Text(dish.des)
-              .foregroundStyle(.secondary)
+              .foregroundStyle(.mainTheme)
               .multilineTextAlignment(.leading)
               .lineLimit(2)
             Text("\(dish.price) $")
-              .font(.headline)
+              .font(.title3)
+              .fontWeight(.semibold)
               .foregroundStyle(.mainTheme)
               .padding(.top, 4)
           }
