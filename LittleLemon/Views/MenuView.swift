@@ -124,20 +124,20 @@ private struct FiltersHeader: View {
     VStack(alignment: .leading, spacing: 16) {
       Text("ORDER FOR DELIVERY!")
         .font(.headline)
-        .padding(.top, 16)
+        .padding([.top, .horizontal], 16)
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 12) {
-          ForEach(filters, id: \.self) { f in
-            Text(f)
+          ForEach(filters, id: \.self) { filtered in
+            Text(filtered)
               .padding(.horizontal, 16)
               .padding(.vertical, 10)
-              .background(Capsule().fill(Color(.systemGray5)))
+              .background(Rectangle().fill(Color(.systemGray5)).cornerRadius(16))
           }
         }
         .padding(.bottom, 12)
+        .padding(.horizontal, 16)
       }
     }
-    .padding(.horizontal, 24)
     .background(Color.clear)
   }
 }
