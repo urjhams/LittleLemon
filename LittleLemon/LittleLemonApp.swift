@@ -9,12 +9,41 @@ import SwiftUI
 
 @main
 struct LittleLemonApp: App {
-    let persistenceController = PersistenceController.shared
 
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+  @State private var auth = AuthStore.shared
+
+  let persistenceController = PersistenceController.shared
+
+  var body: some Scene {
+    WindowGroup {
+      ZStack {
+        if auth.isLoggedIn {
+          NavigationStack {
+            HomeView()
+              .logoTitleToolbar()
+              .navigationBarTitleDisplayMode(.inline)
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
+          }
+          .transition(
+            .asymmetric(
+              insertion: .move(edge: .trailing).combined(with: .opacity),
+              removal: .move(edge: .trailing).combined(with: .opacity)
+            ))
+        } else {
+          NavigationStack {
+            OnboardingView()
+              .logoTitleToolbar()
+              .navigationBarTitleDisplayMode(.inline)
+          }
+          .transition(
+            .asymmetric(
+              insertion: .move(edge: .leading).combined(with: .opacity),
+              removal: .move(edge: .leading).combined(with: .opacity)
+            ))
         }
+      }
+      .animation(.spring(response: 0.5, dampingFraction: 0.9), value: auth.isLoggedIn)
+      .environment(auth)
     }
+  }
 }
