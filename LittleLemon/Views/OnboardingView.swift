@@ -36,13 +36,13 @@ struct OnboardingPage: Identifiable {
 }
 
 let pages: [OnboardingPage] = [
-  .init(
-    title: "Welcome to Little Lemon",
-    subTitle: "Chicago",
-    text: "Explore a menu crafted with fresh ingredients and authentic taste. Every dish is prepared with care to bring joy to your table.",
-    image: nil,
-    kind: .present
-  ),
+//  .init(
+//    title: "Welcome to Little Lemon",
+//    subTitle: "Chicago",
+//    text: "Explore a menu crafted with fresh ingredients and authentic taste. Every dish is prepared with care to bring joy to your table.",
+//    image: nil,
+//    kind: .present
+//  ),
   .init(
     title: "Little Lemon",
     subTitle: "Chicago",
@@ -135,10 +135,11 @@ struct OnboardingView: View {
     text: String? = nil,
     image: ImageResource? = nil
   ) -> some View {
-    VStack(spacing: 30) {
+    VStack {
       VStack(alignment: .leading) {
         Text(title ?? "")
           .font(.largeTitle)
+          .foregroundStyle(.title)
         HStack(spacing: 16) {
           VStack(alignment: .leading, spacing: 16) {
             Text(subTitle ?? "")
@@ -155,7 +156,7 @@ struct OnboardingView: View {
           }
         }
       }
-      .padding()
+      .padding([.horizontal, .top])
       .foregroundStyle(.white)
       .frame(maxWidth: .infinity)
       .frame(height: 260, alignment: .top)
@@ -173,8 +174,7 @@ struct OnboardingView: View {
           .keyboardType(.emailAddress)
           .autocapitalization(.none)
       }
-      .padding(.horizontal, 24)
-      .padding(.bottom, 24)
+      .padding([.bottom, .top, .horizontal], 24)
     }
   }
   

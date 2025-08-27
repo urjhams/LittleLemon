@@ -32,6 +32,35 @@ struct MenuView: View {
 
   var body: some View {
     ScrollView {
+      
+      VStack(alignment: .leading) {
+        Text("Little Lemon")
+          .font(.largeTitle)
+          .foregroundStyle(.title)
+        HStack(spacing: 16) {
+          VStack(alignment: .leading, spacing: 16) {
+            Text("Chicago")
+              .font(.title2)
+            Text("We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.")
+              .font(.body)
+          }
+          Image(.hero)
+            .resizable()
+            .frame(width: 100, height: 120)
+            .aspectRatio(contentMode: .fill)
+            .clipShape(.rect(cornerRadius: 10))
+        }
+      }
+      .padding([.horizontal, .top])
+      .foregroundStyle(.white)
+      .frame(maxWidth: .infinity)
+      .frame(height: 260, alignment: .top)
+      .background(.mainTheme)
+      
+      HStack {
+        // TODO: tags here
+      }
+      
       FetchedObjects(
         predicate: filteredPredicate,
         sortDescriptors: sortDescriptors
