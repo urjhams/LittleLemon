@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CachedAsyncImage
 
 struct MenuView: View {
   
@@ -16,11 +17,25 @@ struct MenuView: View {
   
   @State var filters = [String]()
   
+  @State private var selectedFilter: String? = nil
+  
   var filteredPredicate: NSPredicate {
-    if searchText.isEmpty {
+    var predicates: [NSPredicate] = []
+    
+    if !searchText.isEmpty {
+      predicates.append(NSPredicate(format: "title CONTAINS[cd] %@", searchText))
+    }
+    
+    if let selected = selectedFilter {
+      predicates.append(NSPredicate(format: "cat == %@", selected))
+    }
+    
+    if predicates.isEmpty {
       return NSPredicate(value: true)
+    } else if predicates.count == 1 {
+      return predicates[0]
     } else {
-      return NSPredicate(format: "title CONTAINS[cd] %@", searchText)
+      return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
   }
   
@@ -171,7 +186,7 @@ private struct MenuRow: View {
       
       Spacer(minLength: 12)
       
-      AsyncImage(url: URL(string: dish.img)) { phase in
+      CachedAsyncImage(url: URL(string: dish.img)) { phase in
         switch phase {
         case .empty:
           ProgressView()
