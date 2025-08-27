@@ -130,7 +130,7 @@ private struct FiltersHeader: View {
               .padding(.vertical, 10)
               .background(
                 Capsule()
-                  .fill(isSelected ? Color("MainTheme") : Color(.systemGray5))
+                  .fill(isSelected ? Color("MainThemeColor") : Color(.systemGray5))
               )
               .foregroundStyle(isSelected ? .white : .primary)
               .onTapGesture {
