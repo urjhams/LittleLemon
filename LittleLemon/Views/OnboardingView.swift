@@ -36,13 +36,13 @@ struct OnboardingPage: Identifiable {
 }
 
 let pages: [OnboardingPage] = [
-//  .init(
-//    title: "Welcome to Little Lemon",
-//    subTitle: "Chicago",
-//    text: "Explore a menu crafted with fresh ingredients and authentic taste. Every dish is prepared with care to bring joy to your table.",
-//    image: nil,
-//    kind: .present
-//  ),
+  .init(
+    title: "Welcome to Little Lemon",
+    subTitle: "Chicago",
+    text: "Explore a menu crafted with fresh ingredients and authentic taste. Every dish is prepared with care to bring joy to your table.",
+    image: nil,
+    kind: .present
+  ),
   .init(
     title: "Little Lemon",
     subTitle: "Chicago",
